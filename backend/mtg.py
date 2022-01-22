@@ -22,6 +22,9 @@ class CardFace:
         if key in self.data:
             return self.data[key]
         raise AttributeError(key)
+    
+    def to_dict(self):
+        return self.data
 
 
 class AtomicCard:
@@ -40,6 +43,12 @@ class AtomicCard:
     def __getattr__(self, key):
         # if self.multi_face:
         return getattr(self.front, key)
+
+    def to_dict(self):
+        return {
+            "name": self.face_name,
+            "faces": [face.to_dict() for face in self.faces]
+        }
 
 
 class Deck:
